@@ -6,16 +6,25 @@
 # 
 # git gitignore-add <template name>
 
-if [ -d .git ];
+# Top level directory in the repo
+top_level_dir=`git rev-parse --show-toplevel 2> /dev/null`
+
+if [ $? -ne 0 ];
 then
-	continue
-else
-	echo "Fatal: Not in a git repository."
+	echo "fatal: Not a git repository (or any of the parent directories): .git"
 	exit 1
 fi
 
+# Change directory
+pushd $top_level_dir > /dev/null
+
 function cleanup() {
 	rm -f $1.gitignore 2> /dev/null
+}
+
+function exit_script() {
+	pushd $top_level_dir > /dev/null
+	exit $1
 }
 
 name=$1
@@ -25,7 +34,7 @@ then
 	echo "USAGE:"
 	echo "\tgit gitignore-add <template name>"
 	echo "\tUse \"git gitignore-list\" command to get a list of available gitignore templates."
-	exit 1
+	exit_script 1
 fi
 
 # Download the right gitignore file
@@ -34,7 +43,7 @@ if [[ $? -ne 0 ]];
 then
 	echo "Invalid gitignore template name."
 	echo "Use \"git gitignore-list\" command to get a list of available gitignore templates."
-	exit 1
+	exit_script 1
 fi
 
 if [ -f .gitignore ];
@@ -55,19 +64,19 @@ then
 	if [[ $response == "1" ]];
 	then
 		cleanup $name
-		exit 0
+		exit_script 0
 	elif [[ $response == "2" ]];
 	then
 		cat $name.gitignore >> .gitignore
 		cleanup $name
-		exit 0
+		exit_script 0
 	elif [[ $response == "3" ]];
 	then
 		continue
 	else
 		echo "Invalid option. Exiting."
 		cleanup $name
-		exit 1
+		exit_script 1
 	fi
 fi
 
