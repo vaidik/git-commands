@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# git-gitignore-list
+#
+# Author: Vaidik Kapoor
+# 
+# git gitignore-list
+
+echo "Available gitignores templates on Github:"
+curl -s https://api.github.com/gitignore/templates | \
+	sed 's/\"//g' | sed 's/,//g' | sed 's/\[//' | sed 's/]//'
