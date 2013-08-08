@@ -2,6 +2,15 @@
 
 A few useful Git Commands
 
+## Commands
+
+-   `gitignore-list` - Get a list of Gitignore templates from [Github's
+    gitignore templates repository][GG].
+-   `gitignore-add` - Add a Gitignore from [Github's gitignore templates
+    repository][GG].
+
+[GG]: http://github.com/github/gitignore
+
 ## Usage
 
 ### For most systems
