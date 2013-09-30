@@ -8,6 +8,10 @@ A few useful Git Commands
     gitignore templates repository][GG].
 -   `gitignore-add` - Add a Gitignore from [Github's gitignore templates
     repository][GG].
+-   `deploy` - If you use Heroku or such a workflow in which you deploy using
+    git, then this command will be helpful. Create `.gitdeploy` executable
+    script that does eveything you'd do at the time of deployment and run the
+    script using `git deploy`.
 
 [GG]: http://github.com/github/gitignore
 

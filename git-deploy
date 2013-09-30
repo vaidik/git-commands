@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# git-deploy
+#
+# Author: Vaidik Kapoor
+# 
+# git deploy
+
+# Import utils.sh
+source "$(dirname ${BASH_SOURCE[0]})/utils.sh"
+
+# Check if in a Git repo
+get_repo_path > /dev/null
+
+# Hold .gitdeploy path for future use
+GITDEPLOY_PATH=$(get_repo_path)/.gitdeploy
+
+# Check if .gitdeploy exists
+if [[ ! -f $GITDEPLOY_PATH ]];
+then
+    echo ".gitdeploy file does not exist. Add a .gitdeploy file in your repository and make it executable."
+    exit 1
+fi
+
+# Check if .gitdeploy is executable
+if [ ! -x $GITDEPLOY_PATH ];
+then
+    echo ".gitdeploy file exists but its not executable. Make your .gitdeploy file in executable."
+    exit 1
+fi
+
+# Execute .gitdeploy
+$GITDEPLOY_PATH
+
+# Check if the .gitdeploy script exited normally
+if [[ $? -ne 0 ]];
+then
+    echo "Fatal: failed to successfully execute the .gitdeploy script."
+fi
