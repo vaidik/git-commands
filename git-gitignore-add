@@ -6,14 +6,14 @@
 # 
 # git gitignore-add <template name>
 
-# Top level directory in the repo
-top_level_dir=`git rev-parse --show-toplevel 2> /dev/null`
+# Import utils.sh
+source "$(dirname ${BASH_SOURCE[0]})/utils.sh"
 
-if [ $? -ne 0 ];
-then
-	echo "fatal: Not a git repository (or any of the parent directories): .git"
-	exit 1
-fi
+# Check if in a valid Git repo
+get_repo_path
+
+# Get repository's top level directory's path
+top_level_dir=$(get_repo_path)
 
 # Change directory
 pushd $top_level_dir > /dev/null
