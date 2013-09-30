@@ -8,4 +8,4 @@
 
 echo "Available gitignores templates on Github:"
 curl -s https://api.github.com/gitignore/templates | \
-	sed -E 's/\"|,|\[|]//g'
+    sed -E 's/\"|,|\[|]//g'

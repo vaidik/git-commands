@@ -19,65 +19,65 @@ top_level_dir=$(get_repo_path)
 pushd $top_level_dir > /dev/null
 
 function cleanup() {
-	rm -f $1.gitignore 2> /dev/null
+    rm -f $1.gitignore 2> /dev/null
 }
 
 function exit_script() {
-	pushd $top_level_dir > /dev/null
-	exit $1
+    pushd $top_level_dir > /dev/null
+    exit $1
 }
 
 name=$1
 if [[ $name == "" ]];
 then
-	echo "Gitignore template name missing."
-	echo "USAGE:"
-	echo "\tgit gitignore-add <template name>"
-	echo "\tUse \"git gitignore-list\" command to get a list of available gitignore templates."
-	exit_script 1
+    echo "Gitignore template name missing."
+    echo "USAGE:"
+    echo "\tgit gitignore-add <template name>"
+    echo "\tUse \"git gitignore-list\" command to get a list of available gitignore templates."
+    exit_script 1
 fi
 
 # Download the right gitignore file
 wget https://raw.github.com/github/gitignore/master/$name.gitignore 2> /dev/null;
 if [[ $? -ne 0 ]];
 then
-	echo "Invalid gitignore template name."
-	echo "Use \"git gitignore-list\" command to get a list of available gitignore templates."
-	exit_script 1
+    echo "Invalid gitignore template name."
+    echo "Use \"git gitignore-list\" command to get a list of available gitignore templates."
+    exit_script 1
 fi
 
 if [ -f .gitignore ];
 then
-	echo ".gitignore already exists. What would you like to do?"
-	echo "1. Abort"
-	echo "2. Append"
-	echo "3. Overwrite"
+    echo ".gitignore already exists. What would you like to do?"
+    echo "1. Abort"
+    echo "2. Append"
+    echo "3. Overwrite"
 
-	echo "Enter choice (1):"
-	read response
-	
-	if [[ $response == "" ]];
-	then
-		response=1
-	fi
+    echo "Enter choice (1):"
+    read response
+    
+    if [[ $response == "" ]];
+    then
+        response=1
+    fi
 
-	if [[ $response == "1" ]];
-	then
-		cleanup $name
-		exit_script 0
-	elif [[ $response == "2" ]];
-	then
-		cat $name.gitignore >> .gitignore
-		cleanup $name
-		exit_script 0
-	elif [[ $response == "3" ]];
-	then
-		continue
-	else
-		echo "Invalid option. Exiting."
-		cleanup $name
-		exit_script 1
-	fi
+    if [[ $response == "1" ]];
+    then
+        cleanup $name
+        exit_script 0
+    elif [[ $response == "2" ]];
+    then
+        cat $name.gitignore >> .gitignore
+        cleanup $name
+        exit_script 0
+    elif [[ $response == "3" ]];
+    then
+        continue
+    else
+        echo "Invalid option. Exiting."
+        cleanup $name
+        exit_script 1
+    fi
 fi
 
 mv *.gitignore .gitignore;
